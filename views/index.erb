@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+  <head>
+    <title>NFL Home Page</title>
+  </head>
+  <body>
+
+    <div class="Navigation">
+      <ul>
+        <li><a href="leaderboard">Leaderboard</a></li>
+        <% @team_names.each do |team_name| %>
+          <li><a href="<%= team_name %>"><%= team_name %></a></li>
+        <% end %>
+      </ul>
+    </div>
+
+
+
+  </body>
