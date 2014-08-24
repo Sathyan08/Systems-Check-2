@@ -10,7 +10,7 @@
       <ul>
         <li><a href="leaderboard">Leaderboard</a></li>
         <% @team_names.each do |team_name| %>
-          <li><a href="<%= team_name %>"><%= team_name %></a></li>
+          <li><a href="/team/<%= team_name %>"><%= team_name %></a></li>
         <% end %>
       </ul>
     </div>
@@ -18,3 +18,4 @@
 
 
   </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+  <head>
+    <title><% @team%></title>
+  </head>
+  <body>
+    <h2><%= @team %></h2>
+    <p>Wins: <% @leaderboard.each do |team_hash| %>
+                <% if team_hash[:name] == @team %>
+                <%= team_hash[:wins] %>
+                 Loses: <%= team_hash[:loses] %>
+                <% end %>
+              <% end %></p>
+    <h4>Games</h4>
+    <ol>
+      <% @game_data.each do |game| %>
+        <%if game[:home_team] == @team || game[:away_team] == @team %>
+          <li>Home Team: <%= game[:home_team] %> Away Team: <%= game[:away_team] %>Home:<%= game[:home_score] %> Away: <%= game[:away_score] %> Winner:
+          <% if game[:home_score] > game[:away_score] %>
+            <%= game[:home_team] %>
+            <% else %>
+            <%= game[:away_team] %>
+            <% end %>
+          </li>
+        <% end %>
+      <% end %>
+
+
+

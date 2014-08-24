@@ -35,7 +35,7 @@ def pull_team_data(filename,team_name)
   team_data = []
 
   CSV.foreach(filename, {headers:true, header_converters: :symbol, converters: :all}.merge) do |row|
-    if row["home_team"] == team_name || row["away_team"] == team_name
+    if row[:home_team] == team_name || row[:away_team] == team_name
       team_data<< row
     end
   end
@@ -135,7 +135,11 @@ end
 
 get '/team/:team' do
   @team = params[:team]
-  @team_data = pull_team_data("game_data.csv", @team)
+  @game_data = pull_game_data("game_data.csv")
+  @team_names = extract_team_names(@game_data)
+  @leaderboard = create_leader_board(@game_data,@team_names)
+
+  # @team_data = pull_team_data("game_data.csv", @team)
 
   erb :team
 end

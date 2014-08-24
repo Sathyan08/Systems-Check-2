@@ -7,8 +7,9 @@
   <h2>Leaderboard:</h2>
   <ol>
     <% @leaderboard.each do |leaderboard_position| %>
-      <li><a href="<%= leaderboard_position[:name]%>"><%= leaderboard_position[:name]%></a>Wins: <%= leaderboard_position[:wins] %> Loses: <%= leaderboard_position[:loses] %></li>
+      <li><a href="team/<%= leaderboard_position[:name]%>"><%= leaderboard_position[:name]%></a>Wins: <%= leaderboard_position[:wins] %> Loses: <%= leaderboard_position[:loses] %></li>
       <% end %>
   </ol>
 
 </body>
+</html>
