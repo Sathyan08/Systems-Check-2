@@ -45,8 +45,10 @@ end
 
 def create_leader_board(game_data,team_names)
 
-  leaderboard = []  ### this will be an array of hashes
+  leaderboard = []  ### this will be an array of hashes in the end
 
+
+      ##### 1. Tabulate each team's wins and losses.#####
   wins = {}
   loses = {}
 
@@ -57,7 +59,6 @@ def create_leader_board(game_data,team_names)
 
   game_data.each do |game|
 
-    # puts "game is #{game}"
 
     if game[:home_score] > game[:away_score]
       wins[game[:home_team]] += 1
@@ -70,6 +71,10 @@ def create_leader_board(game_data,team_names)
     wins_sorted = wins.sort_by {|team_name, wins| wins}
     wins_sorted.reverse!
 
+    ###### 2. Create the basis for the leaderboard by taking the wins hash as the basis.
+    ######    The wins hash is sorted properly with highest wins appearing first, so
+    ######    the leaderboard will also be sorted by wins.
+
   wins_sorted.each do |team_name, wins_number|
     leaderboard_position = {}
     leaderboard_position[:name] = team_name
@@ -78,19 +83,25 @@ def create_leader_board(game_data,team_names)
     leaderboard << leaderboard_position
   end
 
-  leaderboard_copy = leaderboard
+    ###### 3. The next step is to reorder teh leaderboard by loses.
+    ######    For teams with the same number of wins, teams with more
+    ######    loses will be ranked lower than teams with fewer loses.
+
+
+  leaderboard_copy = leaderboard  ###create a copy to account for destructive selection
+                                  ###when pushing values into a final data set
 
   wins_groups = []
 
-  leaderboard_copy.each do |copy_position|
-    wins_group = []
+  leaderboard_copy.each do |copy_position|  #### identifies all possible values for wins
+    wins_group = []                         #### then creates a subgroup for each value
     wins_group << copy_position[:wins]
     wins_groups << wins_group
   end
 
   wins_groups.uniq!
 
-  wins_groups.each do |wins_group|
+  wins_groups.each do |wins_group|          ###### matches each team with its win subgroup
     leaderboard.each do |leaderboard_position|
       if leaderboard_position[:wins] == wins_group[0]
         wins_group << leaderboard_position
@@ -100,8 +111,8 @@ def create_leader_board(game_data,team_names)
 
 final_leaderboard = []
 
-  wins_groups.each do |wins_group|
-    wins_group.shift
+  wins_groups.each do |wins_group|          #### sorts each win subgroup by loses
+    wins_group.shift                #### gets rid of the original wins number that is no longer needed
     wins_group.sort_by! {|leaderboard_position| leaderboard_position[:loses]}
     until wins_group.length == 0
       final_leaderboard << wins_group.shift
